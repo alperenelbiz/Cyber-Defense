@@ -16,13 +16,13 @@ public class LevelManager : MonoBehaviour
         {
             totalEnemies += sp.GetComponent<SpawnAgent>().maxCount;
         }
-        Debug.Log(totalEnemies);
+        //Debug.Log(totalEnemies);
     }
 
     public static void RemoveEnemy()
     {
         totalEnemies--;
-        if (totalEnemies <= 0)
-            Debug.Log("Level Over");
+       /* if (totalEnemies <= 0)
+            Debug.Log("Level Over");*/
     }
 }

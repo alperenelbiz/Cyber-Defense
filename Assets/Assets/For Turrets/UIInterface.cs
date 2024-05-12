@@ -33,7 +33,7 @@ public class UIInterface : MonoBehaviour
             if (!Physics.Raycast(ray, out hit))
                 return;
 
-            focusObject.transform.position = hit.point + new Vector3(0, 1, 0);
+            focusObject.transform.position = hit.point;
         }
         else if (focusObject && Input.GetMouseButtonUp(0))
         {
