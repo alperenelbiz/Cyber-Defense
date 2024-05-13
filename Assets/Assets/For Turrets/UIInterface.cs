@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.EventSystems;
 
 public class UIInterface : MonoBehaviour
 {
     public GameObject turret1;
     public GameObject turret2;
+    public GameObject turretPropertiesMenu;
+
 
     GameObject itemPrefab;
     GameObject focusObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,11 @@ public class UIInterface : MonoBehaviour
         CreateItemForButton();
     }
 
+    public void CloseTurretPropertiesMenu()
+    {
+        turretPropertiesMenu.SetActive(false);
+    }
+
     void CreateItemForButton()
     {
         RaycastHit hit;
@@ -44,12 +53,24 @@ public class UIInterface : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
 
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit) &&
+                hit.collider.gameObject.CompareTag("turret"))
+            {
+                turretPropertiesMenu.transform.position = Input.mousePosition;
+                turretPropertiesMenu.SetActive(true);
+            }
         }
         else if (focusObject && Input.GetMouseButton(0))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
             if (!Physics.Raycast(ray, out hit))
                 return;
 
@@ -59,6 +80,7 @@ public class UIInterface : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
             if (Physics.Raycast(ray, out hit) &&
                 hit.collider.gameObject.CompareTag("platform") &&
                 hit.normal.Equals(new Vector3(0, 1, 0)))
@@ -67,6 +89,7 @@ public class UIInterface : MonoBehaviour
                 focusObject.transform.position = new Vector3(hit.collider.gameObject.transform.position.x,
                                                                 focusObject.transform.position.y,
                                                                 hit.collider.gameObject.transform.position.z);
+                focusObject.GetComponent<Collider>().enabled = true;
             }
             else
                 Destroy(focusObject);
