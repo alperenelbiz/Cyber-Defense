@@ -8,6 +8,7 @@ public class UIInterface : MonoBehaviour
 {
     public GameObject turret1;
     public GameObject turret2;
+    public GameObject turret3;
     public GameObject turretPropertiesMenu;
 
 
@@ -29,6 +30,12 @@ public class UIInterface : MonoBehaviour
     public void CreateTurret2()
     {
         itemPrefab = turret2;
+        CreateItemForButton();
+    }
+
+    public void CreateTurret3()
+    {
+        itemPrefab = turret3;
         CreateItemForButton();
     }
 
