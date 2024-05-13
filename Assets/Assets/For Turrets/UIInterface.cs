@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class UIInterface : MonoBehaviour
 {
-    public GameObject Turret;
+    public GameObject turret1;
+    public GameObject turret2;
 
+    GameObject itemPrefab;
     GameObject focusObject;
     // Start is called before the first frame update
     void Start()
@@ -13,18 +16,35 @@ public class UIInterface : MonoBehaviour
 
     }
 
+    public void CreateTurret1()
+    {
+        itemPrefab = turret1;
+        CreateItemForButton();
+    }
+
+    public void CreateTurret2()
+    {
+        itemPrefab = turret2;
+        CreateItemForButton();
+    }
+
+    void CreateItemForButton()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out hit))
+            return;
+
+        focusObject = Instantiate(itemPrefab, hit.point, itemPrefab.transform.rotation);
+        focusObject.GetComponent<Collider>().enabled = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (!Physics.Raycast(ray, out hit))
-                return;
 
-            focusObject = Instantiate(Turret, hit.point, Turret.transform.rotation);
-            focusObject.GetComponent<Collider>().enabled = false;
         }
         else if (focusObject && Input.GetMouseButton(0))
         {
