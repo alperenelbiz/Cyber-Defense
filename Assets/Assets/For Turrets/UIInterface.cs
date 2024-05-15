@@ -69,8 +69,8 @@ public class UIInterface : MonoBehaviour
             if (Physics.Raycast(ray, out hit) &&
                 hit.collider.gameObject.CompareTag("turret"))
             {
-                turretPropertiesMenu.transform.position = Input.mousePosition;
                 turretPropertiesMenu.SetActive(true);
+                turretPropertiesMenu.transform.position = Input.mousePosition;
             }
         }
         else if (focusObject && Input.GetMouseButton(0))

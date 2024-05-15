@@ -114,6 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destinationPoint: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 8034f85f3f907d842b8409136ec72500, type: 2}
+  healthBarPrefab: {fileID: 4337633543196606777, guid: 49403b4eadcd7af44b3b6ef357f30274, type: 3}
 --- !u!195 &944869108299310436
 NavMeshAgent:
   m_ObjectHideFlags: 0
