@@ -66,8 +66,10 @@ public class TurretShoot : MonoBehaviour
             turretCore.transform.rotation = Quaternion.Slerp(turretCore.transform.rotation,
                                                 Quaternion.LookRotation(aimAt - turretCore.transform.position),
                                                 Time.deltaTime);
+            Vector3 directionToTarget = currentTarget.transform.position - turretGun.transform.position;
 
-            ShootTarget();
+            if (Vector3.Angle(directionToTarget, turretGun.transform.forward) < 10)
+                ShootTarget();
         }
         else
         {
