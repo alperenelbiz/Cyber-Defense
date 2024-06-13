@@ -96,7 +96,8 @@ public class UIInterface : MonoBehaviour
                 focusObject.transform.position = new Vector3(hit.collider.gameObject.transform.position.x,
                                                                 focusObject.transform.position.y,
                                                                 hit.collider.gameObject.transform.position.z);
-                focusObject.GetComponent<Collider>().enabled = true;
+                focusObject.GetComponent<BoxCollider>().enabled = true;
+                focusObject.GetComponent<SphereCollider>().enabled = true;
             }
             else
                 Destroy(focusObject);
