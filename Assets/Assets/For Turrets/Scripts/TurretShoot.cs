@@ -11,6 +11,7 @@ public class TurretShoot : MonoBehaviour
     public GameObject turretCore;
     public GameObject turretGun;
     public TurretData turretData;
+    //public AudioSource turretFiringSound;
 
     Quaternion turretCoreStartRotation;
     Quaternion turretGunStartRotation;
@@ -36,10 +37,22 @@ public class TurretShoot : MonoBehaviour
         turretGunStartRotation = turretGun.transform.localRotation;
     }
 
+    bool coolDown = true;
+
+    void CoolDown()
+    {
+        coolDown = true;
+    }
+
     void ShootTarget()
     {
-        if (currentTarget)
-            currentTargetCode.Hit(1);
+        if (currentTarget && coolDown)
+        {
+            currentTargetCode.Hit((int)turretData.damage);
+            //turretFiringSound.Play();
+            coolDown = false;
+            Invoke("CoolDown", turretData.reloadTime);
+        }
     }
 
     // Update is called once per frame
@@ -61,15 +74,15 @@ public class TurretShoot : MonoBehaviour
 
             turretGun.transform.rotation = Quaternion.Slerp(turretGun.transform.rotation,
                                                 Quaternion.LookRotation(relativeTargetPosition - turretGun.transform.position),
-                                                Time.deltaTime);
+                                                Time.deltaTime * turretData.turnSpeed);
 
             //turretCore.transform.LookAt(aimAt);
             turretCore.transform.rotation = Quaternion.Slerp(turretCore.transform.rotation,
                                                 Quaternion.LookRotation(aimAt - turretCore.transform.position),
-                                                Time.deltaTime);
+                                                Time.deltaTime * turretData.turnSpeed);
             Vector3 directionToTarget = currentTarget.transform.position - turretGun.transform.position;
 
-            if (Vector3.Angle(directionToTarget, turretGun.transform.forward) < 10)
+            if (Vector3.Angle(directionToTarget, turretGun.transform.forward) < turretData.aimingAccuracy)
                 if (Random.Range(0, 100) < turretData.accuracy)
                     ShootTarget();
         }
@@ -77,11 +90,11 @@ public class TurretShoot : MonoBehaviour
         {
             turretGun.transform.localRotation = Quaternion.Slerp(turretGun.transform.localRotation,
                                                 turretGunStartRotation,
-                                                Time.deltaTime);
+                                                Time.deltaTime * turretData.turnSpeed);
 
             turretCore.transform.rotation = Quaternion.Slerp(turretCore.transform.rotation,
                                                 turretCoreStartRotation,
-                                                Time.deltaTime);
+                                                Time.deltaTime * turretData.turnSpeed);
         }
     }
 }

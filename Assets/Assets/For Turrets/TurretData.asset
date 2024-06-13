@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76fcd707e6ead6408fd931c15f144a7, type: 3}
   m_Name: TurretData
   m_EditorClassIdentifier: 
-  damage: 0
-  accuracy: 0
-  turnSpeed: 0
-  reloadTime: 0
+  damage: 5
+  accuracy: 80
+  turnSpeed: 1.5
+  reloadTime: 2
+  aimingAccuracy: 20
