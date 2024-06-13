@@ -10,6 +10,7 @@ public class TurretShoot : MonoBehaviour
 
     public GameObject turretCore;
     public GameObject turretGun;
+    public TurretData turretData;
 
     Quaternion turretCoreStartRotation;
     Quaternion turretGunStartRotation;
@@ -32,7 +33,7 @@ public class TurretShoot : MonoBehaviour
     void Start()
     {
         turretCoreStartRotation = turretCore.transform.rotation;
-        turretGunStartRotation = turretGun.transform.rotation;
+        turretGunStartRotation = turretGun.transform.localRotation;
     }
 
     void ShootTarget()
@@ -69,11 +70,12 @@ public class TurretShoot : MonoBehaviour
             Vector3 directionToTarget = currentTarget.transform.position - turretGun.transform.position;
 
             if (Vector3.Angle(directionToTarget, turretGun.transform.forward) < 10)
-                ShootTarget();
+                if (Random.Range(0, 100) < turretData.accuracy)
+                    ShootTarget();
         }
         else
         {
-            turretGun.transform.rotation = Quaternion.Slerp(turretGun.transform.rotation,
+            turretGun.transform.localRotation = Quaternion.Slerp(turretGun.transform.localRotation,
                                                 turretGunStartRotation,
                                                 Time.deltaTime);
 
